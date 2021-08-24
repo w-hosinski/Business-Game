@@ -1,0 +1,60 @@
+.incomeStatement {
+    display: grid;
+    grid-template-columns: 9vw 7vw 7vw 7vw;
+}
+#grossProfitDisplay, #operatingIncomeDisplay, #earningsBeforeTaxesDisplay, #netIncomeApproxDisplay, #cashDisplay, #grossProfitThisQuarterDisplay, #grossProfitLastQuarterDisplay, #operatingIncomeThisQuarterDisplay, #operatingIncomeLastQuarterDisplay, #earningsBeforeTaxesThisQuarterDisplay, #earningsBeforeTaxesLastQuarterDisplay, #netIncomeApproxThisQuarterDisplay, #netIncomeApproxLastQuarterDisplay {
+    font-weight: bold;
+}
+#everything {
+    display: grid;
+    grid-template-columns: repeat(10, 10vw);
+    grid-template-rows: repeat(10, 10vh); 
+}
+#balancegroup {
+    grid-column: 1 / 4;
+    grid-row: 1 / 7;   
+}
+#numbergroup {
+    grid-column: 4 / 8;
+    grid-row: 1 / 4;
+}
+#buttongroup {
+    grid-column: 4 / 8;
+    grid-row: 4 / 8;
+}
+#statsgroup {
+    grid-column: 4 / 8;
+    grid-row: 8 / 11;
+}
+#upgradegroup {
+    grid-column: 8 / 11;
+    grid-row: 1 / 7;
+}
+#financinggroup {
+    grid-column: 1 / 4;
+    grid-row: 7 / 11;   
+}
+#termLoanAmountDisplay,#termLoanDurationDisplay {
+    width: 8vw;
+}
+.btn {
+    background-color: #008000;
+    padding: 8px 20px;
+    margin-bottom: 4px;
+    font-size: 16px;
+    color: white;
+    width: 25vw;
+    border-radius: 5px;
+    border: 2px solid black;
+    transition-duration: 0.35s;
+}
+.btn:hover {
+    background-color: white;
+    color: black;
+}
+.btn:active {
+    background-color: #e0e0e0;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
