@@ -1,3 +1,7 @@
+body {
+    overflow: hidden;
+  }
+
 .incomeStatement {
     display: grid;
     grid-template-columns: 9vw 7vw 7vw 7vw;
@@ -57,4 +61,6 @@
     box-shadow: 0 5px #666;
     transform: translateY(4px);
 }
-
+.btn-busy {
+    background-color: #C0C0C0;
+}
