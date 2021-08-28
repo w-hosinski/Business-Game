@@ -114,6 +114,7 @@ function addMachine2() {
 function addManufacturingBuilding1() {
     if(manufacturingBuildingNumber<maxManufacturingBuildings && money>=manufacturingBuildingSetupCost){
         rentManufacturingBuildingE.disabled = true
+        btnBusy(rentManufacturingBuildingE)
         rentManufacturingBuildingE.value = "Setting up Building..."
         money-=manufacturingBuildingSetupCost
         oneTimeWriteOff += 10 * manufacturingBuildingSetupCost
@@ -131,9 +132,11 @@ function addManufacturingBuilding2() {
     manufacturingBuildingNumber++
     if(manufacturingBuildingNumber==maxManufacturingBuildings){
         rentManufacturingBuildingE.disabled = true
+        btnBusy(rentManufacturingBuildingE)
     }
     else {
         rentManufacturingBuildingE.disabled = false
+        btnIdle(rentManufacturingBuildingE)
     }
     manufacturingBuildingNumberDisplay.innerHTML = manufacturingBuildingNumber  + " Manufacturing Buildings (max:" + maxManufacturingBuildings+")"
     machineNumberDisplay.innerHTML = machineNumber + " Machines (max:" + maxMachines+")"
@@ -142,6 +145,7 @@ function addManufacturingBuilding2() {
 function addAssembler1() {
     if(money>=assemblerHireCost && maxEmployees>allEmployeesNumber) {
         hireAssemblerE.disabled = true
+        btnBusy(hireAssemblerE)
         hireAssemblerE.value = "Hiring Assembler..."
         money-=assemblerHireCost
         oneTimeWriteOff += 10 * assemblerHireCost
@@ -154,12 +158,14 @@ function addAssembler2() {
         hireAssemblerE.value = "Hire 1 Assembler (0.5$/Second + 7$)"
         assemblerNumber++   
         hireAssemblerE.disabled = false
+        btnIdle(hireAssemblerE)
         assemblerNumberDisplay.innerHTML = assemblerNumber + " Assemblers"
 }
 
 function addQci1() {
     if(money>=qciHireCost && maxEmployees>allEmployeesNumber) {
         hireQciE.disabled = true
+        btnBusy(hireQciE)
         hireQciE.value = "Hiring Quality Control Inspector..."
         money-=qciHireCost
         oneTimeWriteOff += 10 * qciHireCost
@@ -172,12 +178,14 @@ function addQci2() {
         hireQciE.value = "Hire 1 Quality Control Inspector (0.6$/Second + 9$)"
         qciNumber++   
         hireQciE.disabled = false
+        btnIdle(hireQciE)
         qciNumberDisplay.innerHTML = qciNumber + " Quality Control Inspectors"
 }
 
 function addAccountant1() {
     if(accountantNumber<maxAccountants && money>=accountantHireCost && maxEmployees>allEmployeesNumber) {
         hireAccountantE.disabled = true
+        btnBusy(hireAccountantE)
         hireAccountantE.value = "Hiring Accountant..."
         money-=accountantHireCost
         oneTimeWriteOff += 10 * accountantHireCost
@@ -190,14 +198,17 @@ function addAccountant2() {
         accountantNumber++
         if(accountantNumber==maxAccountants) {
             hireAccountantE.disabled = true
+            btnBusy(hireAccountantE)
         }
         else{
             hireAccountantE.disabled = false
+            btnIdle(hireAccountantE)
         }
         hireAccountantE.value = "Hire 1 Accountant (0.6$/Second + 18$)" 
         accountantNumberDisplay.innerHTML = accountantNumber + " Accountants (max:" + maxAccountants+")"
         if(accountantNumber>1){
             reduceTaxesResearchE.disabled = false
+            btnIdle(reduceTaxesResearchE)
         }
         assemblerWage -= outsourcedAccountingFee
         qciWage -= outsourcedAccountingFee
@@ -207,6 +218,7 @@ function addAccountant2() {
 function addOfficeBuilding1() {
     if(officeBuildingNumber<maxOfficeBuildings && money>=officeBuildingSetupCost){
         rentOfficeBuildingE.disabled = true
+        btnBusy(rentOfficeBuildingE)
         rentOfficeBuildingE.value = "Setting up Building..."
         money-=officeBuildingSetupCost
         oneTimeWriteOff += 10 * officeBuildingSetupCost
@@ -219,13 +231,16 @@ function addOfficeBuilding2() {
     maxAccountants+=accountantsPerOfficeBuilding
     if(hireAccountantE.value !== "Hiring Accountant..."){
         hireAccountantE.disabled = false
+        btnIdle(hireAccountantE)
         }
     officeBuildingNumber++
     if(officeBuildingNumber==maxOfficeBuildings){
         rentOfficeBuildingE.disabled = true
+        btnBusy(rentOfficeBuildingE)
     }
     else {
         rentOfficeBuildingE.disabled = false
+        btnIdle(rentOfficeBuildingE)
     }
     officeBuildingNumberDisplay.innerHTML = officeBuildingNumber  + " Office Buildings (max:" + maxOfficeBuildings+")"
     accountantNumberDisplay.innerHTML = accountantNumber + " Accountants (max:" + maxAccountants+")"
@@ -234,6 +249,7 @@ function addOfficeBuilding2() {
 function reduceTaxesResearch1() {
     if(accountantNumber>1 && money>=officeBuildingSetupCost){
         reduceTaxesResearchE.disabled = true
+        btnBusy(reduceTaxesResearchE)
         reduceTaxesResearchE.value = "Tax Optimization Ongoing..."
         money-=reduceTaxesResearchCost
         setTimeout(reduceTaxesResearch2,10000)
@@ -252,10 +268,12 @@ function termLoanCheck() {
         tempTermLoanInterestRate = termLoanInterestRates[tempTermLoanDuration-1]/12
         tempTermLoanMonthlyPayment = tempTermLoanAmount*((tempTermLoanInterestRate*(1+tempTermLoanInterestRate)**(tempTermLoanDuration * 12))/(((1+tempTermLoanInterestRate)**(tempTermLoanDuration * 12))-1))
         acceptTermLoanE.disabled = false
+        btnIdle(acceptTermLoanE)
         termLoanMonthlyPaymentDisplay.innerHTML = "Your monthly payment will be "+tempTermLoanMonthlyPayment.toFixed(2)+" $"
     }
     else {
         acceptTermLoanE.disabled = true
+        btnBusy(acceptTermLoanE)
         termLoanMonthlyPaymentDisplay.innerHTML = "Your monthly payment will be 0 $"
     }
 }
@@ -267,6 +285,7 @@ if (document.forms["termLoan"]["termLoanAmount"].checkValidity() && document.for
     money -= -1*(tempTermLoanAmount)
     termLoan1MonthlyInterest = ((tempTermLoanMonthlyPayment*tempTermLoanDuration*12)-tempTermLoanAmount)/(tempTermLoanDuration*12*(baseTaxCounter/30))
     acceptTermLoanE.disabled = true
+    btnBusy(acceptTermLoanE)
     termLoan1NameDisplayE.hidden = false
     termLoan1PaymentsDisplayE.hidden = false
     termLoan1TotalDisplayE.hidden = false
