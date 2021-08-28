@@ -43,14 +43,14 @@ body {
 }
 .btn {
     background-color: #008000;
-    padding: 8px 20px;
-    margin-bottom: 4px;
-    font-size: 16px;
+    padding: 0.5em 1.25em;
+    margin-bottom: 0.25em;
+    font-size: 1em;
     color: white;
     width: 25vw;
     border-radius: 5px;
     border: 2px solid black;
-    transition-duration: 0.35s;
+    transition-duration: 0.3s;
 }
 .btn:hover {
     background-color: white;
@@ -63,4 +63,9 @@ body {
 }
 .btn-busy {
     background-color: #C0C0C0;
+}
+.btn-rnd {
+    font-size: 0.85em;
+    background-color: #000080;
+    padding-right: 1.5em;
 }
