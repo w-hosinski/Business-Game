@@ -262,7 +262,7 @@ function reduceTaxesResearch2() {
 }
 
 function termLoanCheck() {
-    if (document.forms["termLoan"]["termLoanAmount"].checkValidity() && document.forms["termLoan"]["termLoanDuration"].checkValidity()){
+    if (document.forms["termLoan"]["termLoanAmount"].checkValidity() && document.forms["termLoan"]["termLoanDuration"].checkValidity() && termLoan1MonthsRemaining == 0){
         tempTermLoanAmount = document.forms["termLoan"]["termLoanAmount"].value
         tempTermLoanDuration = document.forms["termLoan"]["termLoanDuration"].value
         tempTermLoanInterestRate = termLoanInterestRates[tempTermLoanDuration-1]/12
