@@ -10,7 +10,7 @@ termLoanDurationDisplay.addEventListener("click",termLoanCheck)
 termLoanAmountDisplay.addEventListener("keyup",termLoanCheck)
 termLoanDurationDisplay.addEventListener("keyup",termLoanCheck)
 
-var money = 0
+var money = 200
 var baseInputMatPrice = 1
 var inputMatPrice = 1
 var baseProductPrice = 2
@@ -196,6 +196,7 @@ function addAccountant1() {
 
 function addAccountant2() {
         accountantNumber++
+        termLoanCheck()
         if(accountantNumber==maxAccountants) {
             hireAccountantE.disabled = true
             btnBusy(hireAccountantE)
@@ -262,7 +263,7 @@ function reduceTaxesResearch2() {
 }
 
 function termLoanCheck() {
-    if (document.forms["termLoan"]["termLoanAmount"].checkValidity() && document.forms["termLoan"]["termLoanDuration"].checkValidity() && termLoan1MonthsRemaining == 0){
+    if (document.forms["termLoan"]["termLoanAmount"].checkValidity() && document.forms["termLoan"]["termLoanDuration"].checkValidity() && termLoan1MonthsRemaining == 0 && accountantNumber != 0){
         tempTermLoanAmount = document.forms["termLoan"]["termLoanAmount"].value
         tempTermLoanDuration = document.forms["termLoan"]["termLoanDuration"].value
         tempTermLoanInterestRate = termLoanInterestRates[tempTermLoanDuration-1]/12
