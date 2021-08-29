@@ -74,9 +74,12 @@ var tempTermLoanMonthlyPayment = 0
 var tempTermLoanInterestRate = 0
 var tempTermLoanAmount = 0
 var creditLimit = 100
+var liquidity = 0
+var ccAPR = 0.185
+var creditCardInterest = 0
 
 function addMachine1() {
-    if(machineNumber<maxMachines && money>=machineCost) {
+    if(machineNumber<maxMachines && liquidity>=machineCost) {
         buyMachine.disabled = true
         btnBusy(buyMachine)
         buyMachine.value = "Ordering Machine..."
@@ -101,7 +104,7 @@ function addMachine2() {
 }
 
 function addManufacturingBuilding1() {
-    if(manufacturingBuildingNumber<maxManufacturingBuildings && money>=manufacturingBuildingSetupCost){
+    if(manufacturingBuildingNumber<maxManufacturingBuildings && liquidity>=manufacturingBuildingSetupCost){
         rentManufacturingBuilding.disabled = true
         btnBusy(rentManufacturingBuilding)
         rentManufacturingBuilding.value = "Setting up Building..."
@@ -132,7 +135,7 @@ function addManufacturingBuilding2() {
 }
 
 function addAssembler1() {
-    if(money>=assemblerHireCost && maxEmployees>allEmployeesNumber) {
+    if(liquidity>=assemblerHireCost && maxEmployees>allEmployeesNumber) {
         hireAssembler.disabled = true
         btnBusy(hireAssembler)
         hireAssembler.value = "Hiring Assembler..."
@@ -152,7 +155,7 @@ function addAssembler2() {
 }
 
 function addQci1() {
-    if(money>=qciHireCost && maxEmployees>allEmployeesNumber) {
+    if(liquidity>=qciHireCost && maxEmployees>allEmployeesNumber) {
         hireQci.disabled = true
         btnBusy(hireQci)
         hireQci.value = "Hiring Quality Control Inspector..."
@@ -172,7 +175,7 @@ function addQci2() {
 }
 
 function addAccountant1() {
-    if(accountantNumber<maxAccountants && money>=accountantHireCost && maxEmployees>allEmployeesNumber) {
+    if(accountantNumber<maxAccountants && liquidity>=accountantHireCost && maxEmployees>allEmployeesNumber) {
         hireAccountant.disabled = true
         btnBusy(hireAccountant)
         hireAccountant.value = "Hiring Accountant..."
@@ -207,7 +210,7 @@ function addAccountant2() {
 }
 
 function addOfficeBuilding1() {
-    if(officeBuildingNumber<maxOfficeBuildings && money>=officeBuildingSetupCost){
+    if(officeBuildingNumber<maxOfficeBuildings && liquidity>=officeBuildingSetupCost){
         rentOfficeBuilding.disabled = true
         btnBusy(rentOfficeBuilding)
         rentOfficeBuilding.value = "Setting up Building..."
@@ -238,7 +241,7 @@ function addOfficeBuilding2() {
 }
 
 function reduceTaxesResearch1() {
-    if(accountantNumber>1 && money>=officeBuildingSetupCost){
+    if(accountantNumber>1 && liquidity>=officeBuildingSetupCost){
         reduceTaxesResearch.disabled = true
         btnBusy(reduceTaxesResearch)
         reduceTaxesResearch.value = "Tax Optimization Ongoing..."
@@ -303,6 +306,8 @@ function btnIdle(element) {
     element.classList.remove("btn-busy") 
 }
 
+moneytooltip.innerText = "Credit Limit: "+creditLimit +"$ (can be increased through research) | APR: "+(ccAPR*100)+"%"
+
 function ticker() {
     money += (machineNumber*((incomePerMachine*machineUtilization)-machineRunningCost))/10
     money -= assemblerNumber*assemblerWage/10
@@ -310,8 +315,16 @@ function ticker() {
     money -= manufacturingBuildingNumber*rentPerManufacturingBuilding/10
     money -= accountantNumber*accountantWage/10
     money -= officeBuildingNumber*rentPerOfficeBuilding/10
-    cashDisplay.childNodes[0].nodeValue = Math.floor(money) + " $"
-    
+    liquidity = money + creditLimit
+    if (money <= 0) {
+        cashDisplay.childNodes[0].nodeValue = Math.floor(money) + " $ | Credit Limit: " +creditLimit+"$ APR: " +(ccAPR*100)+"%"
+        money -= money*(-ccAPR/(baseTaxCounter*4))
+        creditCardInterest = money*(-ccAPR/(baseTaxCounter*0.4)) 
+    }
+    else {
+        cashDisplay.childNodes[0].nodeValue = Math.floor(money) + " $"
+        creditCardInterest = 0
+    }
     if(qciNumber!=0){
         qciUtilisation = (qciCapacitySquared/Math.sqrt(productsPerSecond/qciNumber))
     }  
@@ -353,7 +366,7 @@ function ticker() {
     rdDisplay.childNodes[0].nodeValue = (rd).toFixed(0)+" $"
     var operatingIncome = grossProfit-sga-rd
     operatingIncomeDisplay.childNodes[0].nodeValue = (operatingIncome).toFixed(0)+" $"
-    var netInterestExpenses = termLoan1MonthlyInterest
+    var netInterestExpenses = termLoan1MonthlyInterest + creditCardInterest
     netInterestExpensesDisplay.childNodes[0].nodeValue = (netInterestExpenses).toFixed(0)+" $"
     var unusualItems = 0
     unusualItemsDisplay.childNodes[0].nodeValue = (unusualItems).toFixed(0)+" $"
@@ -431,7 +444,6 @@ function ticker() {
         quarterCounter++
     }
 
-    
     if(quarterCounter==4) {
         quarterCounter = 0
         if(netAnnualIncome>0 && immediateExpenseDeduction>netAnnualIncome){
@@ -446,7 +458,6 @@ function ticker() {
     }
     var timeUntilEndOfYear = (3-quarterCounter)*(baseTaxCounter/10)+(taxCounter/10)
     
-
     currentQuarterEndDisplay.childNodes[0].nodeValue = "Current Quarter Ends in "+(taxCounter/10).toFixed(0)+" Seconds"
     netAnnualIncomeDisplay.childNodes[0].nodeValue = "Net Income this Year of "+netAnnualIncome.toFixed(0)+" $ which ends in "+timeUntilEndOfYear.toFixed(0)+" Seconds"
     immediateExpenseDeductionDisplay.childNodes[0].nodeValue = "Potential Immediate Expense Deduction of "+immediateExpenseDeduction.toFixed(0)+" $ (Only up to Net Income in the Current Year)"
@@ -456,7 +467,6 @@ function ticker() {
         alert("Bankrupt! Restart Game?")
         location.reload()
     }
-   
 }
 
 setInterval(ticker, 100)

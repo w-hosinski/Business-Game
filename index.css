@@ -12,6 +12,10 @@ body {
 #grossProfitDisplay, #operatingIncomeDisplay, #earningsBeforeTaxesDisplay, #netIncomeApproxDisplay, #cashDisplay, #grossProfitThisQuarterDisplay, #grossProfitLastQuarterDisplay, #operatingIncomeThisQuarterDisplay, #operatingIncomeLastQuarterDisplay, #earningsBeforeTaxesThisQuarterDisplay, #earningsBeforeTaxesLastQuarterDisplay, #netIncomeApproxThisQuarterDisplay, #netIncomeApproxLastQuarterDisplay {
     font-weight: bold;
 }
+#moneytooltip {
+    font-weight: normal;  
+}
+
 #everything {
     display: grid;
     grid-template-columns: repeat(10, 10vw);
