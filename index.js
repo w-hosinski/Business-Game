@@ -20,12 +20,10 @@ var machineCost = 14
 var machinesPerManufacturingBuilding = 4
 var maxMachines = 0
 var incomePerMachine = productPrice-inputMatPrice
-var machineUtilization = 0
 var machineRunningCost = 0.4
 var machineSpeed = 1
 var machineEfficiency = 1
 var machineCycleTime = 1000
-var productsPerSecond = 0
 var rentPerManufacturingBuilding = 0.9
 var manufacturingBuildingNumber  = 0
 var manufacturingBuildingSetupCost = 18
@@ -40,7 +38,6 @@ var qciWage = 0.64
 var qciStrength = 0.3
 var qciCapacitySquared = 3
 var qciIncrementerTime = 100
-var qciUtilisation = 0
 var accountantNumber = 0
 var accountantHireCost = 18
 var accountantWage = 0.6
@@ -53,32 +50,16 @@ var officeBuildingNumber = 0
 var officeBuildingSetupCost = 10
 var accountantsPerOfficeBuilding = 4
 var corpTaxRate = 0.25
-var taxExpense = 0
 var baseTaxCounter = 900
 var taxCounter = baseTaxCounter
 var salvageMultiple = 0.25
-var quarterCounter = 0
-var netAnnualIncome = 0
-var immediateExpenseDeduction = 0
-var oneTimeWriteOff = 0
-var revenuesThisQuarter = 0, costOfRevenuesThisQuarter = 0, grossProfitThisQuarter = 0, sgaThisQuarter = 0, rdThisQuarter = 0, operatingIncomeThisQuarter = 0, netInterestExpensesThisQuarter = 0, netInterestExpensesThisQuarter = 0, unusualItemsThisQuarter = 0, earningsBeforeTaxesThisQuarter = 0, taxExpenseApproxThisQuarter = 0, netIncomeApproxThisQuarter = 0
-var nolBalance = 0
-var costOfRevenuesWriteOff = 0
 var reduceTaxesResearchCost = 70
-var outsourcedAccountingFee = 0.04
-var termLoan1MonthlyPayment = 0
-var termLoan1MonthsRemaining = 0
-var termLoan1MonthlyInterest = 0  
+var outsourcedAccountingFee = 0.04   
 var termLoanInterestRates = [0.075,0.080,0.087,0.093,0.100]
-var tempTermLoanMonthlyPayment = 0
-var tempTermLoanInterestRate = 0
-var tempTermLoanAmount = 0
 var creditLimit = 100
-var liquidity = 0
-var ccAPR = 0.185
-var creditCardInterest = 0
+var ccAPR = 0.185 
 var ccGraceBase = 450
-var ccGraceCounter = 0
+var revenuesThisQuarter = 0, costOfRevenuesThisQuarter = 0, grossProfitThisQuarter = 0, sgaThisQuarter = 0, rdThisQuarter = 0, operatingIncomeThisQuarter = 0, netInterestExpensesThisQuarter = 0, netInterestExpensesThisQuarter = 0, unusualItemsThisQuarter = 0, earningsBeforeTaxesThisQuarter = 0, taxExpenseApproxThisQuarter = 0, netIncomeApproxThisQuarter = 0, creditCardInterest = 0, ccGraceCounter = 0, liquidity = money, tempTermLoanAmount = 0, tempTermLoanInterestRate = 0, tempTermLoanMonthlyPayment = 0, termLoan1MonthlyInterest = 0, termLoan1MonthsRemaining = 0, termLoan1MonthlyPayment = 0, costOfRevenuesWriteOff = 0, nolBalance = 0, oneTimeWriteOff = 0, immediateExpenseDeduction = 0, netAnnualIncome = 0, taxExpense = 0, qciUtilisation = 0, productsPerSecond = 0, machineUtilization = 0 
 
 function addMachine1() {
     if(machineNumber<maxMachines && liquidity>=machineCost) {
@@ -203,9 +184,7 @@ function addAccountant2() {
         }
         hireAccountant.value = "Hire 1 Accountant (0.6$/Second + 18$)" 
         accountantNumberDisplay.childNodes[0].nodeValue = accountantNumber + " Accountants (max:" + maxAccountants+")"
-        if(accountantNumber>1){
-            btnIdle(reduceTaxesResearch)
-        }
+        if(accountantNumber>1) btnIdle(reduceTaxesResearch)
         assemblerWage -= outsourcedAccountingFee
         qciWage -= outsourcedAccountingFee
         outsourcedAccountingFee = 0
@@ -331,12 +310,10 @@ function ticker() {
         cashDisplay.childNodes[0].nodeValue = Math.floor(money) + " $"
         creditCardInterest = 0, ccGraceCounter = 0
     }
-    if(qciNumber!=0){
-        qciUtilisation = (qciCapacitySquared/Math.sqrt(productsPerSecond/qciNumber))
-    }  
-    if(qciUtilisation>1){
-        qciUtilisation = 1
-    }
+    if(qciNumber!=0) qciUtilisation = (qciCapacitySquared/Math.sqrt(productsPerSecond/qciNumber)) 
+    
+    if(qciUtilisation>1) qciUtilisation = 1
+    
     if(productPrice<(baseProductPrice+(qciStrength*qciUtilisation))){
         productPrice += qciStrength/qciIncrementerTime
         productPriceDisplay.childNodes[0].nodeValue = "Product Price: "+productPrice.toFixed(2)+" $/Unit"
@@ -347,13 +324,10 @@ function ticker() {
         productPriceDisplay.childNodes[0].nodeValue = "Product Price: "+productPrice.toFixed(2)+" $/Unit"
         incomePerMachine = productPrice-inputMatPrice
     }
-
-    if((assemblerNumber*assemblersPerMachine)>machineNumber) {
-        machineUtilization = 1
-    }
-    else if (assemblerNumber!=0){
-        machineUtilization = assemblerNumber/machineNumber
-    }
+    if((assemblerNumber*assemblersPerMachine)>machineNumber) machineUtilization = 1
+    
+    else if (assemblerNumber!=0) machineUtilization = assemblerNumber/machineNumber
+    
     machineUtilizationDisplay.childNodes[0].nodeValue = "Machine Utilization: "+(machineUtilization*100).toFixed(0)+"%"
     productsPerSecond = (machineSpeed/(machineCycleTime/1000))*machineNumber*machineUtilization
     productsPerSecondDisplay.childNodes[0].nodeValue = "Products per Second: "+productsPerSecond.toFixed(2)
@@ -431,9 +405,8 @@ function ticker() {
             money-=(earningsBeforeTaxesThisQuarter-nolBalance)*corpTaxRate
             nolBalance = 0
         }
-        else if ((earningsBeforeTaxesThisQuarter-nolBalance)<0) {
-            nolBalance -= earningsBeforeTaxesThisQuarter
-        }
+        else if ((earningsBeforeTaxesThisQuarter-nolBalance)<0) nolBalance -= earningsBeforeTaxesThisQuarter
+        
         revenuesLastQuarterDisplay.childNodes[0].nodeValue = revenuesThisQuarter.toFixed(0)+" $"
         costOfRevenuesLastQuarterDisplay.childNodes[0].nodeValue = costOfRevenuesThisQuarter.toFixed(0)+" $"
         grossProfitLastQuarterDisplay.childNodes[0].nodeValue = grossProfitThisQuarter.toFixed(0)+" $"
