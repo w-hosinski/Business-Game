@@ -73,6 +73,7 @@ var termLoanInterestRates = [0.075,0.080,0.087,0.093,0.100]
 var tempTermLoanMonthlyPayment = 0
 var tempTermLoanInterestRate = 0
 var tempTermLoanAmount = 0
+var creditLimit = 100
 
 const buyMachineE = document.getElementById("buyMachine")
 const rentManufacturingBuildingE = document.getElementById("rentManufacturingBuilding")
@@ -87,6 +88,7 @@ const termLoan1PaymentsDisplayE = document.getElementById("termLoan1PaymentsDisp
 const termLoan1TotalDisplayE = document.getElementById("termLoan1TotalDisplay")
 const termLoanAmountDisplayE = document.getElementById("termLoanAmountDisplay")
 const termLoanDurationDisplayE = document.getElementById("termLoanDurationDisplay")
+const termLoanAPRDisplayE = document.getElementById("termLoanAPRDisplay")
 
 function addMachine1() {
     if(machineNumber<maxMachines && money>=machineCost) {
@@ -275,6 +277,8 @@ function termLoanCheck() {
         acceptTermLoanE.disabled = false
         btnIdle(acceptTermLoanE)
         termLoanMonthlyPaymentDisplay.childNodes[0].nodeValue = "Your monthly payment will be "+tempTermLoanMonthlyPayment.toFixed(2)+" $"
+        termLoanAPRDisplayE.hidden = false
+        termLoanAPRDisplayE.childNodes[0].nodeValue = "Interest Rate: "+(tempTermLoanInterestRate*1200).toFixed(1)+"% APR"
     }
     else {
         acceptTermLoanE.disabled = true
@@ -297,6 +301,7 @@ if (document.forms["termLoan"]["termLoanAmount"].checkValidity() && document.for
     termLoan1NameDisplayE.hidden = false
     termLoan1PaymentsDisplayE.hidden = false
     termLoan1TotalDisplayE.hidden = false
+    termLoanAPRDisplayE.hidden = true
     tempTermLoanAmount, tempTermLoanDuration, tempTermLoanInterestRate, tempTermLoanMonthlyPayment = 0
     document.forms["termLoan"]["termLoanAmount"].value = ""
     document.forms["termLoan"]["termLoanDuration"].value = ""
@@ -462,6 +467,12 @@ function ticker() {
     netAnnualIncomeDisplay.childNodes[0].nodeValue = "Net Income this Year of "+netAnnualIncome.toFixed(0)+" $ which ends in "+timeUntilEndOfYear.toFixed(0)+" Seconds"
     immediateExpenseDeductionDisplay.childNodes[0].nodeValue = "Potential Immediate Expense Deduction of "+immediateExpenseDeduction.toFixed(0)+" $ (Only up to Net Income in the Current Year)"
     nolBalanceDisplay.childNodes[0].nodeValue = "Earnings Loss Carry Forward Balance: "+(nolBalance).toFixed(0)+" $"
+    
+    if(money<-creditLimit) { 
+        alert("Bankrupt! Restart Game?")
+        location.reload()
+    }
+   
 }
 
 setInterval(ticker, 100)
