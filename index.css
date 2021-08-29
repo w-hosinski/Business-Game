@@ -66,14 +66,15 @@ body {
     box-shadow: 0 5px #666;
     transform: translateY(4px);
 }
-.btn-busy {
-    background-color: #C0C0C0;
-}
 .btn-rnd {
     font-size: 0.85em;
     background-color: #000080;
     padding-right: 1.5em;
 }
+.btn-busy {
+    background-color: #C0C0C0;
+}
+
 
 /* Tooltips */
 
