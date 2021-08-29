@@ -110,7 +110,7 @@ function addMachine2() {
             btnIdle(buyMachineE)
         }
         buyMachineE.value = "Buy 1 Machine (0.4$/Second + 14$)" 
-        machineNumberDisplay.innerHTML = machineNumber + " Machines (max:" + maxMachines+")" 
+        machineNumberDisplay.childNodes[0].nodeValue = machineNumber + " Machines (max:" + maxMachines+")" 
 }
 
 function addManufacturingBuilding1() {
@@ -140,8 +140,8 @@ function addManufacturingBuilding2() {
         rentManufacturingBuildingE.disabled = false
         btnIdle(rentManufacturingBuildingE)
     }
-    manufacturingBuildingNumberDisplay.innerHTML = manufacturingBuildingNumber  + " Manufacturing Buildings (max:" + maxManufacturingBuildings+")"
-    machineNumberDisplay.innerHTML = machineNumber + " Machines (max:" + maxMachines+")"
+    manufacturingBuildingNumberDisplay.childNodes[0].nodeValue = manufacturingBuildingNumber  + " Manufacturing Buildings (max:" + maxManufacturingBuildings+")"
+    machineNumberDisplay.childNodes[0].nodeValue = machineNumber + " Machines (max:" + maxMachines+")"
 }
 
 function addAssembler1() {
@@ -161,7 +161,7 @@ function addAssembler2() {
         assemblerNumber++   
         hireAssemblerE.disabled = false
         btnIdle(hireAssemblerE)
-        assemblerNumberDisplay.innerHTML = assemblerNumber + " Assemblers"
+        assemblerNumberDisplay.childNodes[0].nodeValue = assemblerNumber + " Assemblers"
 }
 
 function addQci1() {
@@ -181,7 +181,7 @@ function addQci2() {
         qciNumber++   
         hireQciE.disabled = false
         btnIdle(hireQciE)
-        qciNumberDisplay.innerHTML = qciNumber + " Quality Control Inspectors"
+        qciNumberDisplay.childNodes[0].nodeValue = qciNumber + " Quality Control Inspectors"
 }
 
 function addAccountant1() {
@@ -210,7 +210,7 @@ function addAccountant2() {
             btnIdle(hireAccountantE)
         }
         hireAccountantE.value = "Hire 1 Accountant (0.6$/Second + 18$)" 
-        accountantNumberDisplay.innerHTML = accountantNumber + " Accountants (max:" + maxAccountants+")"
+        accountantNumberDisplay.childNodes[0].nodeValue = accountantNumber + " Accountants (max:" + maxAccountants+")"
         if(accountantNumber>1){
             reduceTaxesResearchE.disabled = false
             btnIdle(reduceTaxesResearchE)
@@ -247,8 +247,8 @@ function addOfficeBuilding2() {
         rentOfficeBuildingE.disabled = false
         btnIdle(rentOfficeBuildingE)
     }
-    officeBuildingNumberDisplay.innerHTML = officeBuildingNumber  + " Office Buildings (max:" + maxOfficeBuildings+")"
-    accountantNumberDisplay.innerHTML = accountantNumber + " Accountants (max:" + maxAccountants+")"
+    officeBuildingNumberDisplay.childNodes[0].nodeValue = officeBuildingNumber  + " Office Buildings (max:" + maxOfficeBuildings+")"
+    accountantNumberDisplay.childNodes[0].nodeValue = accountantNumber + " Accountants (max:" + maxAccountants+")"
 }
 
 function reduceTaxesResearch1() {
@@ -274,15 +274,15 @@ function termLoanCheck() {
         tempTermLoanMonthlyPayment = tempTermLoanAmount*((tempTermLoanInterestRate*(1+tempTermLoanInterestRate)**(tempTermLoanDuration * 12))/(((1+tempTermLoanInterestRate)**(tempTermLoanDuration * 12))-1))
         acceptTermLoanE.disabled = false
         btnIdle(acceptTermLoanE)
-        termLoanMonthlyPaymentDisplay.innerHTML = "Your monthly payment will be "+tempTermLoanMonthlyPayment.toFixed(2)+" $"
+        termLoanMonthlyPaymentDisplay.childNodes[0].nodeValue = "Your monthly payment will be "+tempTermLoanMonthlyPayment.toFixed(2)+" $"
     }
     else {
         acceptTermLoanE.disabled = true
         btnBusy(acceptTermLoanE)
-        if(!document.forms["termLoan"]["termLoanDuration"].checkValidity()) termLoanMonthlyPaymentDisplay.innerHTML = "Invalid Loan Duration!"
-        if(!document.forms["termLoan"]["termLoanAmount"].checkValidity()) termLoanMonthlyPaymentDisplay.innerHTML = "Invalid Loan Amount!" 
-        if(termLoan1MonthsRemaining != 0) termLoanMonthlyPaymentDisplay.innerHTML = "Pay off your current Term Loan first!" 
-        if(accountantNumber == 0) termLoanMonthlyPaymentDisplay.innerHTML = "An accountant is required to unlock Term Loans!" 
+        if(!document.forms["termLoan"]["termLoanDuration"].checkValidity()) termLoanMonthlyPaymentDisplay.childNodes[0].nodeValue = "Invalid Loan Duration!"
+        if(!document.forms["termLoan"]["termLoanAmount"].checkValidity()) termLoanMonthlyPaymentDisplay.childNodes[0].nodeValue = "Invalid Loan Amount!" 
+        if(termLoan1MonthsRemaining != 0) termLoanMonthlyPaymentDisplay.childNodes[0].nodeValue = "Pay off your current Term Loan first!" 
+        if(accountantNumber == 0) termLoanMonthlyPaymentDisplay.childNodes[0].nodeValue = "An accountant is required to unlock Term Loans!" 
     }
 }
 
@@ -300,9 +300,9 @@ if (document.forms["termLoan"]["termLoanAmount"].checkValidity() && document.for
     tempTermLoanAmount, tempTermLoanDuration, tempTermLoanInterestRate, tempTermLoanMonthlyPayment = 0
     document.forms["termLoan"]["termLoanAmount"].value = ""
     document.forms["termLoan"]["termLoanDuration"].value = ""
-    termLoanMonthlyPaymentDisplay.innerHTML = "Your monthly payment will be "+0+" $"
-    termLoan1PaymentsDisplay.innerHTML = termLoan1MonthsRemaining+" payments of "+termLoan1MonthlyPayment.toFixed(2)+" $ remaining"
-    termLoan1TotalDisplay.innerHTML = "Total Loan remaining: "+(termLoan1MonthsRemaining*termLoan1MonthlyPayment).toFixed(0)+" $"
+    termLoanMonthlyPaymentDisplay.childNodes[0].nodeValue = "Pay off your current Term Loan first!" 
+    termLoan1PaymentsDisplay.childNodes[0].nodeValue = termLoan1MonthsRemaining+" payments of "+termLoan1MonthlyPayment.toFixed(2)+" $ remaining"
+    termLoan1TotalDisplay.childNodes[0].nodeValue = "Total Loan remaining: "+(termLoan1MonthsRemaining*termLoan1MonthlyPayment).toFixed(0)+" $"
 }
 }
 
@@ -321,7 +321,7 @@ function ticker() {
     money -= manufacturingBuildingNumber*rentPerManufacturingBuilding/10
     money -= accountantNumber*accountantWage/10
     money -= officeBuildingNumber*rentPerOfficeBuilding/10
-    cashDisplay.innerHTML = Math.floor(money) + " $"
+    cashDisplay.childNodes[0].nodeValue = Math.floor(money) + " $"
     
     if(qciNumber!=0){
         qciUtilisation = (qciCapacitySquared/Math.sqrt(productsPerSecond/qciNumber))
@@ -331,12 +331,12 @@ function ticker() {
     }
     if(productPrice<(baseProductPrice+(qciStrength*qciUtilisation))){
         productPrice += qciStrength/qciIncrementerTime
-        productPriceDisplay.innerHTML = "Product Price: "+productPrice.toFixed(2)+" $/Unit"
+        productPriceDisplay.childNodes[0].nodeValue = "Product Price: "+productPrice.toFixed(2)+" $/Unit"
         incomePerMachine = productPrice-inputMatPrice
     }
     if(productPrice>(baseProductPrice+(qciStrength*qciUtilisation))){
         productPrice -= qciStrength/qciIncrementerTime
-        productPriceDisplay.innerHTML = "Product Price: "+productPrice.toFixed(2)+" $/Unit"
+        productPriceDisplay.childNodes[0].nodeValue = "Product Price: "+productPrice.toFixed(2)+" $/Unit"
         incomePerMachine = productPrice-inputMatPrice
     }
 
@@ -346,58 +346,58 @@ function ticker() {
     else if (assemblerNumber!=0){
         machineUtilization = assemblerNumber/machineNumber
     }
-    machineUtilizationDisplay.innerHTML = "Machine Utilization: "+(machineUtilization*100).toFixed(0)+"%"
+    machineUtilizationDisplay.childNodes[0].nodeValue = "Machine Utilization: "+(machineUtilization*100).toFixed(0)+"%"
     productsPerSecond = (machineSpeed/(machineCycleTime/1000))*machineNumber*machineUtilization
-    productsPerSecondDisplay.innerHTML = "Products per Second: "+productsPerSecond.toFixed(2)
-    qciUtilizationDisplay.innerHTML = "Quality Control Effectiveness: "+Math.floor(qciUtilisation*100)+"%"
-    maxEmployeesDisplay.innerHTML = allEmployeesNumber+"/"+maxEmployees+" Total Employees"
-    accountingFeeDisplay.innerHTML = "Outsourced Accounting Fee: "+(allEmployeesNumber*outsourcedAccountingFee).toFixed(2)+" $/Second"
+    productsPerSecondDisplay.childNodes[0].nodeValue = "Products per Second: "+productsPerSecond.toFixed(2)
+    qciUtilizationDisplay.childNodes[0].nodeValue = "Quality Control Effectiveness: "+Math.floor(qciUtilisation*100)+"%"
+    maxEmployeesDisplay.childNodes[0].nodeValue = allEmployeesNumber+"/"+maxEmployees+" Total Employees"
+    accountingFeeDisplay.childNodes[0].nodeValue = "Outsourced Accounting Fee: "+(allEmployeesNumber*outsourcedAccountingFee).toFixed(2)+" $/Second"
     var revenues = productsPerSecond*productPrice
-    revenuesDisplay.innerHTML = (revenues).toFixed(0)+" $"
+    revenuesDisplay.childNodes[0].nodeValue = (revenues).toFixed(0)+" $"
     var costOfRevenues = inputMatPrice*machineEfficiency*productsPerSecond+machineRunningCost*machineNumber+assemblerNumber*(assemblerWage-outsourcedAccountingFee)+rentPerManufacturingBuilding*manufacturingBuildingNumber+costOfRevenuesWriteOff
-    costOfRevenuesDisplay.innerHTML = (costOfRevenues).toFixed(0)+" $"
+    costOfRevenuesDisplay.childNodes[0].nodeValue = (costOfRevenues).toFixed(0)+" $"
     var grossProfit = (revenues-costOfRevenues)
-    grossProfitDisplay.innerHTML = (grossProfit).toFixed(0)+" $"
+    grossProfitDisplay.childNodes[0].nodeValue = (grossProfit).toFixed(0)+" $"
     var sga = qciNumber*qciWage+accountantNumber*accountantWage+rentPerOfficeBuilding*officeBuildingNumber+oneTimeWriteOff+outsourcedAccountingFee*assemblerNumber 
-    sgaDisplay.innerHTML = (sga).toFixed(0)+" $"
+    sgaDisplay.childNodes[0].nodeValue = (sga).toFixed(0)+" $"
     var rd = 0
-    rdDisplay.innerHTML = (rd).toFixed(0)+" $"
+    rdDisplay.childNodes[0].nodeValue = (rd).toFixed(0)+" $"
     var operatingIncome = grossProfit-sga-rd
-    operatingIncomeDisplay.innerHTML = (operatingIncome).toFixed(0)+" $"
+    operatingIncomeDisplay.childNodes[0].nodeValue = (operatingIncome).toFixed(0)+" $"
     var netInterestExpenses = termLoan1MonthlyInterest
-    netInterestExpensesDisplay.innerHTML = (netInterestExpenses).toFixed(0)+" $"
+    netInterestExpensesDisplay.childNodes[0].nodeValue = (netInterestExpenses).toFixed(0)+" $"
     var unusualItems = 0
-    unusualItemsDisplay.innerHTML = (unusualItems).toFixed(0)+" $"
+    unusualItemsDisplay.childNodes[0].nodeValue = (unusualItems).toFixed(0)+" $"
     var earningsBeforeTaxes = operatingIncome-netInterestExpenses-unusualItems
-    earningsBeforeTaxesDisplay.innerHTML = (earningsBeforeTaxes).toFixed(0)+" $"
+    earningsBeforeTaxesDisplay.childNodes[0].nodeValue = (earningsBeforeTaxes).toFixed(0)+" $"
     var taxExpenseApprox = -1*(earningsBeforeTaxes*corpTaxRate)
-    taxExpenseApproxDisplay.innerHTML = (taxExpenseApprox).toFixed(0)+" $"
+    taxExpenseApproxDisplay.childNodes[0].nodeValue = (taxExpenseApprox).toFixed(0)+" $"
     var netIncomeApprox = earningsBeforeTaxes+taxExpenseApprox 
-    netIncomeApproxDisplay.innerHTML = (netIncomeApprox).toFixed(0)+" $"
+    netIncomeApproxDisplay.childNodes[0].nodeValue = (netIncomeApprox).toFixed(0)+" $"
     netAnnualIncome += netIncomeApprox/10
 
     revenuesThisQuarter += revenues/10
-    revenuesThisQuarterDisplay.innerHTML = (revenuesThisQuarter).toFixed(0)+" $"
+    revenuesThisQuarterDisplay.childNodes[0].nodeValue = (revenuesThisQuarter).toFixed(0)+" $"
     costOfRevenuesThisQuarter += costOfRevenues/10
-    costOfRevenuesThisQuarterDisplay.innerHTML = (costOfRevenuesThisQuarter).toFixed(0)+" $"
+    costOfRevenuesThisQuarterDisplay.childNodes[0].nodeValue = (costOfRevenuesThisQuarter).toFixed(0)+" $"
     grossProfitThisQuarter += grossProfit/10
-    grossProfitThisQuarterDisplay.innerHTML = (grossProfitThisQuarter).toFixed(0)+" $"
+    grossProfitThisQuarterDisplay.childNodes[0].nodeValue = (grossProfitThisQuarter).toFixed(0)+" $"
     sgaThisQuarter += sga/10
-    sgaThisQuarterDisplay.innerHTML = (sgaThisQuarter).toFixed(0)+" $"
+    sgaThisQuarterDisplay.childNodes[0].nodeValue = (sgaThisQuarter).toFixed(0)+" $"
     rdThisQuarter += rd/10
-    rdThisQuarterDisplay.innerHTML = (rdThisQuarter).toFixed(0)+" $"
+    rdThisQuarterDisplay.childNodes[0].nodeValue = (rdThisQuarter).toFixed(0)+" $"
     operatingIncomeThisQuarter += operatingIncome/10
-    operatingIncomeThisQuarterDisplay.innerHTML = (operatingIncomeThisQuarter).toFixed(0)+" $"
+    operatingIncomeThisQuarterDisplay.childNodes[0].nodeValue = (operatingIncomeThisQuarter).toFixed(0)+" $"
     netInterestExpensesThisQuarter += netInterestExpenses/10
-    netInterestExpensesThisQuarterDisplay.innerHTML = (netInterestExpensesThisQuarter).toFixed(0)+" $"
+    netInterestExpensesThisQuarterDisplay.childNodes[0].nodeValue = (netInterestExpensesThisQuarter).toFixed(0)+" $"
     unusualItemsThisQuarter += unusualItems/10
-    unusualItemsThisQuarterDisplay.innerHTML = (unusualItemsThisQuarter).toFixed(0)+" $"
+    unusualItemsThisQuarterDisplay.childNodes[0].nodeValue = (unusualItemsThisQuarter).toFixed(0)+" $"
     earningsBeforeTaxesThisQuarter += earningsBeforeTaxes/10
-    earningsBeforeTaxesThisQuarterDisplay.innerHTML = (earningsBeforeTaxesThisQuarter).toFixed(0)+" $"
+    earningsBeforeTaxesThisQuarterDisplay.childNodes[0].nodeValue = (earningsBeforeTaxesThisQuarter).toFixed(0)+" $"
     taxExpenseApproxThisQuarter += taxExpenseApprox/10
-    taxExpenseApproxThisQuarterDisplay.innerHTML = (taxExpenseApproxThisQuarter).toFixed(0)+" $"
+    taxExpenseApproxThisQuarterDisplay.childNodes[0].nodeValue = (taxExpenseApproxThisQuarter).toFixed(0)+" $"
     netIncomeApproxThisQuarter += netIncomeApprox/10
-    netIncomeApproxThisQuarterDisplay.innerHTML = (netIncomeApproxThisQuarter).toFixed(0)+" $"
+    netIncomeApproxThisQuarterDisplay.childNodes[0].nodeValue = (netIncomeApproxThisQuarter).toFixed(0)+" $"
     
     costOfRevenuesWriteOff = 0
     oneTimeWriteOff = 0
@@ -407,8 +407,8 @@ function ticker() {
             money-= termLoan1MonthlyPayment
             netInterestExpenses = termLoan1MonthlyInterest
             termLoan1MonthsRemaining--
-            termLoan1PaymentsDisplay.innerHTML = termLoan1MonthsRemaining+" payments of "+termLoan1MonthlyPayment.toFixed(2)+" $ remaining"
-            termLoan1TotalDisplay.innerHTML = "Total Loan remaining: "+(termLoan1MonthsRemaining*termLoan1MonthlyPayment).toFixed(2)+" $"
+            termLoan1PaymentsDisplay.childNodes[0].nodeValue = termLoan1MonthsRemaining+" payments of "+termLoan1MonthlyPayment.toFixed(2)+" $ remaining"
+            termLoan1TotalDisplay.childNodes[0].nodeValue = "Total Loan remaining: "+(termLoan1MonthsRemaining*termLoan1MonthlyPayment).toFixed(2)+" $"
         }
         else {
             termLoan1MonthlyInterest = 0
@@ -426,17 +426,17 @@ function ticker() {
         else if ((earningsBeforeTaxesThisQuarter-nolBalance)<0) {
             nolBalance -= earningsBeforeTaxesThisQuarter
         }
-        revenuesLastQuarterDisplay.innerHTML = revenuesThisQuarter.toFixed(0)+" $"
-        costOfRevenuesLastQuarterDisplay.innerHTML = costOfRevenuesThisQuarter.toFixed(0)+" $"
-        grossProfitLastQuarterDisplay.innerHTML = grossProfitThisQuarter.toFixed(0)+" $"
-        sgaLastQuarterDisplay.innerHTML = sgaThisQuarter.toFixed(0)+" $"
-        rdLastQuarterDisplay.innerHTML = rdThisQuarter.toFixed(0)+" $"
-        operatingIncomeLastQuarterDisplay.innerHTML = operatingIncomeThisQuarter.toFixed(0)+" $"
-        netInterestExpensesLastQuarterDisplay.innerHTML = netInterestExpensesThisQuarter.toFixed(0)+" $"
-        unusualItemsLastQuarterDisplay.innerHTML = unusualItemsThisQuarter.toFixed(0)+" $"
-        earningsBeforeTaxesLastQuarterDisplay.innerHTML = earningsBeforeTaxesThisQuarter.toFixed(0)+" $"
-        taxExpenseApproxLastQuarterDisplay.innerHTML = taxExpenseApproxThisQuarter.toFixed(0)+" $"
-        netIncomeApproxLastQuarterDisplay.innerHTML = netIncomeApproxThisQuarter.toFixed(0)+" $"
+        revenuesLastQuarterDisplay.childNodes[0].nodeValue = revenuesThisQuarter.toFixed(0)+" $"
+        costOfRevenuesLastQuarterDisplay.childNodes[0].nodeValue = costOfRevenuesThisQuarter.toFixed(0)+" $"
+        grossProfitLastQuarterDisplay.childNodes[0].nodeValue = grossProfitThisQuarter.toFixed(0)+" $"
+        sgaLastQuarterDisplay.childNodes[0].nodeValue = sgaThisQuarter.toFixed(0)+" $"
+        rdLastQuarterDisplay.childNodes[0].nodeValue = rdThisQuarter.toFixed(0)+" $"
+        operatingIncomeLastQuarterDisplay.childNodes[0].nodeValue = operatingIncomeThisQuarter.toFixed(0)+" $"
+        netInterestExpensesLastQuarterDisplay.childNodes[0].nodeValue = netInterestExpensesThisQuarter.toFixed(0)+" $"
+        unusualItemsLastQuarterDisplay.childNodes[0].nodeValue = unusualItemsThisQuarter.toFixed(0)+" $"
+        earningsBeforeTaxesLastQuarterDisplay.childNodes[0].nodeValue = earningsBeforeTaxesThisQuarter.toFixed(0)+" $"
+        taxExpenseApproxLastQuarterDisplay.childNodes[0].nodeValue = taxExpenseApproxThisQuarter.toFixed(0)+" $"
+        netIncomeApproxLastQuarterDisplay.childNodes[0].nodeValue = netIncomeApproxThisQuarter.toFixed(0)+" $"
         revenuesThisQuarter = 0, costOfRevenuesThisQuarter = 0, grossProfitThisQuarter = 0, sgaThisQuarter = 0, rdThisQuarter = 0, operatingIncomeThisQuarter = 0, netInterestExpensesThisQuarter = 0, netInterestExpensesThisQuarter = 0, unusualItemsThisQuarter = 0, earningsBeforeTaxesThisQuarter = 0, taxExpenseApproxThisQuarter = 0, netIncomeApproxThisQuarter = 0
         taxCounter = baseTaxCounter
         quarterCounter++
@@ -458,10 +458,10 @@ function ticker() {
     var timeUntilEndOfYear = (3-quarterCounter)*(baseTaxCounter/10)+(taxCounter/10)
     
 
-    currentQuarterEndDisplay.innerHTML = "Current Quarter Ends in "+(taxCounter/10).toFixed(0)+" Seconds"
-    netAnnualIncomeDisplay.innerHTML = "Net Income this Year of "+netAnnualIncome.toFixed(0)+" $ which ends in "+timeUntilEndOfYear.toFixed(0)+" Seconds"
-    immediateExpenseDeductionDisplay.innerHTML = "Potential Immediate Expense Deduction of "+immediateExpenseDeduction.toFixed(0)+" $ (Only up to Net Income in the Current Year)"
-    nolBalanceDisplay.innerHTML = "Earnings Loss Carry Forward Balance: "+(nolBalance).toFixed(0)+" $"
+    currentQuarterEndDisplay.childNodes[0].nodeValue = "Current Quarter Ends in "+(taxCounter/10).toFixed(0)+" Seconds"
+    netAnnualIncomeDisplay.childNodes[0].nodeValue = "Net Income this Year of "+netAnnualIncome.toFixed(0)+" $ which ends in "+timeUntilEndOfYear.toFixed(0)+" Seconds"
+    immediateExpenseDeductionDisplay.childNodes[0].nodeValue = "Potential Immediate Expense Deduction of "+immediateExpenseDeduction.toFixed(0)+" $ (Only up to Net Income in the Current Year)"
+    nolBalanceDisplay.childNodes[0].nodeValue = "Earnings Loss Carry Forward Balance: "+(nolBalance).toFixed(0)+" $"
 }
 
 setInterval(ticker, 100)
