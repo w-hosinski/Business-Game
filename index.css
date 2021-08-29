@@ -1,5 +1,6 @@
 body {
     overflow: hidden;
+    margin: 0.5em 1em;
     font-family: 'Glory', sans-serif;
     font-size: 1.1em;
   }
@@ -38,7 +39,7 @@ body {
 }
 #financinggroup {
     grid-column: 1 / 4;
-    grid-row: 7 / 11;   
+    grid-row: 8 / 11;   
 }
 #termLoanAmountDisplay,#termLoanDurationDisplay {
     width: 8vw;

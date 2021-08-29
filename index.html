@@ -147,12 +147,12 @@
 </div>
 <div id="financinggroup">
     <form id="termLoan" name="termLoan">
-    <b>Term Loan (requires accountant)</b><br>
+    <b>Term Loans</b><br>
     Term Loan Amount<br>
-    <input type="number" id="termLoanAmountDisplay" name="termLoanAmount" min="1000" max="5000" step="500" placeholder="Loan Amount (1k-5k$)" required><br>
+    <input type="number" id="termLoanAmountDisplay" name="termLoanAmount" min="1000" max="5000" step="500" placeholder="Loan Amount (1k-5k$)" required disabled ><br>
     Term Loan Duration<br>
-    <input type="number" id="termLoanDurationDisplay" name="termLoanDuration" min="1" max="5" placeholder="Loan Length (1-5 Years)" required><br> 
-    <div id="termLoanMonthlyPaymentDisplay" >Your monthly payment will be 0 $</div>
+    <input type="number" id="termLoanDurationDisplay" name="termLoanDuration" min="1" max="5" placeholder="Loan Length (1-5 Years)" required disabled><br> 
+    <div id="termLoanMonthlyPaymentDisplay" >An accountant is required to unlock Term Loans!</div>
     <input type="button" id="acceptTermLoan" value="Take Out Loan" class="btn-busy" onclick="submitTermLoan()" disabled><br><br>
     </form> 
     <b><div id="termLoan1NameDisplay" hidden>Term Loan 1</div></b>

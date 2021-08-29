@@ -85,6 +85,8 @@ const acceptTermLoanE = document.getElementById("acceptTermLoan")
 const termLoan1NameDisplayE = document.getElementById("termLoan1NameDisplay")
 const termLoan1PaymentsDisplayE = document.getElementById("termLoan1PaymentsDisplay")
 const termLoan1TotalDisplayE = document.getElementById("termLoan1TotalDisplay")
+const termLoanAmountDisplayE = document.getElementById("termLoanAmountDisplay")
+const termLoanDurationDisplayE = document.getElementById("termLoanDurationDisplay")
 
 function addMachine1() {
     if(machineNumber<maxMachines && money>=machineCost) {
@@ -196,6 +198,8 @@ function addAccountant1() {
 
 function addAccountant2() {
         accountantNumber++
+        termLoanAmountDisplayE.disabled = false
+        termLoanDurationDisplayE.disabled = false
         termLoanCheck()
         if(accountantNumber==maxAccountants) {
             hireAccountantE.disabled = true
@@ -275,7 +279,10 @@ function termLoanCheck() {
     else {
         acceptTermLoanE.disabled = true
         btnBusy(acceptTermLoanE)
-        termLoanMonthlyPaymentDisplay.innerHTML = "Your monthly payment will be 0 $"
+        if(!document.forms["termLoan"]["termLoanDuration"].checkValidity()) termLoanMonthlyPaymentDisplay.innerHTML = "Invalid Loan Duration!"
+        if(!document.forms["termLoan"]["termLoanAmount"].checkValidity()) termLoanMonthlyPaymentDisplay.innerHTML = "Invalid Loan Amount!" 
+        if(termLoan1MonthsRemaining != 0) termLoanMonthlyPaymentDisplay.innerHTML = "Pay off your current Term Loan first!" 
+        if(accountantNumber == 0) termLoanMonthlyPaymentDisplay.innerHTML = "An accountant is required to unlock Term Loans!" 
     }
 }
 
