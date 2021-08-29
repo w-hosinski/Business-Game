@@ -77,6 +77,8 @@ var creditLimit = 100
 var liquidity = 0
 var ccAPR = 0.185
 var creditCardInterest = 0
+var ccGraceBase = 450
+var ccGraceCounter = 0
 
 function addMachine1() {
     if(machineNumber<maxMachines && liquidity>=machineCost) {
@@ -316,14 +318,18 @@ function ticker() {
     money -= accountantNumber*accountantWage/10
     money -= officeBuildingNumber*rentPerOfficeBuilding/10
     liquidity = money + creditLimit
-    if (money <= 0) {
+    if (money < 0 && ccGraceCounter>ccGraceBase) {
         cashDisplay.childNodes[0].nodeValue = Math.floor(money) + " $ | Credit Limit: " +creditLimit+"$ APR: " +(ccAPR*100)+"%"
         money -= money*(-ccAPR/(baseTaxCounter*4))
         creditCardInterest = money*(-ccAPR/(baseTaxCounter*0.4)) 
     }
+    else if (money < 0) {
+        ccGraceCounter++
+        cashDisplay.childNodes[0].nodeValue = Math.floor(money) + " $ | Credit Limit: " +creditLimit+"$ | Interest will start accruing in " +Math.ceil((ccGraceBase-ccGraceCounter)/10) +" Seconds"
+    }
     else {
         cashDisplay.childNodes[0].nodeValue = Math.floor(money) + " $"
-        creditCardInterest = 0
+        creditCardInterest = 0, ccGraceCounter = 0
     }
     if(qciNumber!=0){
         qciUtilisation = (qciCapacitySquared/Math.sqrt(productsPerSecond/qciNumber))
