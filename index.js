@@ -5,6 +5,7 @@ hireQci.addEventListener("click",addQci1)
 rentOfficeBuilding.addEventListener("click",addOfficeBuilding1)
 hireAccountant.addEventListener("click",addAccountant1)
 reduceTaxesResearch.addEventListener("click",reduceTaxesResearch1)
+advancedTrainingResearch.addEventListener("click",advancedTrainingResearch1)
 termLoanAmountDisplay.addEventListener("click",termLoanCheck)
 termLoanDurationDisplay.addEventListener("click",termLoanCheck)
 termLoanAmountDisplay.addEventListener("keyup",termLoanCheck)
@@ -59,7 +60,16 @@ var termLoanInterestRates = [0.075,0.080,0.087,0.093,0.100]
 var creditLimit = 100
 var ccAPR = 0.185 
 var ccGraceBase = 450
-var revenuesThisQuarter = 0, costOfRevenuesThisQuarter = 0, grossProfitThisQuarter = 0, sgaThisQuarter = 0, rdThisQuarter = 0, operatingIncomeThisQuarter = 0, netInterestExpensesThisQuarter = 0, netInterestExpensesThisQuarter = 0, unusualItemsThisQuarter = 0, earningsBeforeTaxesThisQuarter = 0, taxExpenseApproxThisQuarter = 0, netIncomeApproxThisQuarter = 0, creditCardInterest = 0, ccGraceCounter = 0, liquidity = money, tempTermLoanAmount = 0, tempTermLoanInterestRate = 0, tempTermLoanMonthlyPayment = 0, termLoan1MonthlyInterest = 0, termLoan1MonthsRemaining = 0, termLoan1MonthlyPayment = 0, costOfRevenuesWriteOff = 0, nolBalance = 0, oneTimeWriteOff = 0, immediateExpenseDeduction = 0, netAnnualIncome = 0, taxExpense = 0, qciUtilisation = 0, productsPerSecond = 0, machineUtilization = 0 
+var advancedTrainingCostPerAssembler = 7
+var revenuesThisQuarter = 0, costOfRevenuesThisQuarter = 0, grossProfitThisQuarter = 0, sgaThisQuarter = 0, rdThisQuarter = 0, operatingIncomeThisQuarter = 0, netInterestExpensesThisQuarter = 0, netInterestExpensesThisQuarter = 0, unusualItemsThisQuarter = 0, earningsBeforeTaxesThisQuarter = 0, taxExpenseApproxThisQuarter = 0, netIncomeApproxThisQuarter = 0, creditCardInterest = 0, ccGraceCounter = 0, liquidity = money, tempTermLoanAmount = 0, tempTermLoanInterestRate = 0, tempTermLoanMonthlyPayment = 0, termLoan1MonthlyInterest = 0, termLoan1MonthsRemaining = 0, termLoan1MonthlyPayment = 0, costOfRevenuesWriteOff = 0, nolBalance = 0, oneTimeWriteOff = 0, immediateExpenseDeduction = 0, netAnnualIncome = 0, taxExpense = 0, qciUtilisation = 0, productsPerSecond = 0, machineUtilization = 0, quarterCounter = 0 
+
+buyMachine.value = "Buy 1 Machine ("+machineRunningCost+"$/Second + " +machineCost+"$)"
+rentManufacturingBuilding.value = "Rent 1 Manufacturing Building ("+rentPerManufacturingBuilding+"$/Second + "+manufacturingBuildingSetupCost+"$ Setup Cost)"
+hireAssembler.value = "Hire 1 Assembler ("+assemblerWage+"$/Second + "+assemblerHireCost+"$)"
+hireQci.value = "Hire 1 Quality Control Inspector ("+qciWage+"$/Second + "+qciHireCost+"$)"
+hireAccountant.value = "Hire 1 Accountant ("+accountantWage+"$/Second + "+accountantHireCost+"$)"
+rentOfficeBuilding.value = "Rent 1 Office Building ("+rentPerOfficeBuilding+"$/Second + "+officeBuildingSetupCost+"$ Setup Cost)" 
+
 
 function addMachine1() {
     if(machineNumber<maxMachines && liquidity>=machineCost) {
@@ -67,23 +77,23 @@ function addMachine1() {
         btnBusy(buyMachine)
         buyMachine.value = "Ordering Machine..."
         money-=machineCost
-        immediateExpenseDeduction += machineCost*(1-salvageMultiple) //Section 179 Deduction (Up to 20)  
+        immediateExpenseDeduction += machineCost*(1-salvageMultiple) //Section 179 Deduction  
         setTimeout(addMachine2,5000)
     }
 }
 
 function addMachine2() {
-        machineNumber++
-        if(machineNumber==maxMachines) {
+    machineNumber++
+    if(machineNumber==maxMachines) {
             buyMachine.disabled = true
             btnBusy(buyMachine)
-        }
-        else{
-            buyMachine.disabled = false
-            btnIdle(buyMachine)
-        }
-        buyMachine.value = "Buy 1 Machine (0.4$/Second + 14$)" 
-        machineNumberDisplay.childNodes[0].nodeValue = machineNumber + " Machines (max:" + maxMachines+")" 
+    }
+    else{
+        buyMachine.disabled = false
+        btnIdle(buyMachine)
+    }
+    buyMachine.value = "Buy 1 Machine ("+machineRunningCost+"$/Second + " +machineCost+"$)" 
+    machineNumberDisplay.childNodes[0].nodeValue = machineNumber + " Machines (max:" + maxMachines+")" 
 }
 
 function addManufacturingBuilding1() {
@@ -98,7 +108,7 @@ function addManufacturingBuilding1() {
 }
 
 function addManufacturingBuilding2() {
-    rentManufacturingBuilding.value = "Rent 1 Manufacturing Building (0.9$/Second + 18$ Setup Cost)"
+    rentManufacturingBuilding.value = "Rent 1 Manufacturing Building ("+rentPerManufacturingBuilding+"$/Second + "+manufacturingBuildingSetupCost+"$ Setup Cost)"
     maxMachines+=machinesPerManufacturingBuilding
     if(buyMachine.value !== "Ordering Machine..."){
         buyMachine.disabled = false
@@ -130,11 +140,12 @@ function addAssembler1() {
 }
 
 function addAssembler2() {
-        hireAssembler.value = "Hire 1 Assembler (0.5$/Second + 7$)"
-        assemblerNumber++   
-        hireAssembler.disabled = false
-        btnIdle(hireAssembler)
-        assemblerNumberDisplay.childNodes[0].nodeValue = assemblerNumber + " Assemblers"
+    hireAssembler.value = "Hire 1 Assembler ("+assemblerWage+"$/Second + "+assemblerHireCost+"$)"
+    assemblerNumber++   
+    hireAssembler.disabled = false
+    btnIdle(hireAssembler)
+    if(assemblerNumber==15) btnIdle(advancedTrainingResearch)
+    assemblerNumberDisplay.childNodes[0].nodeValue = assemblerNumber + " Assemblers"
 }
 
 function addQci1() {
@@ -150,11 +161,11 @@ function addQci1() {
 }
 
 function addQci2() {
-        hireQci.value = "Hire 1 Quality Control Inspector (0.6$/Second + 9$)"
-        qciNumber++   
-        hireQci.disabled = false
-        btnIdle(hireQci)
-        qciNumberDisplay.childNodes[0].nodeValue = qciNumber + " Quality Control Inspectors"
+    hireQci.value = "Hire 1 Quality Control Inspector ("+qciWage+"$/Second + "+qciHireCost+"$)"
+    qciNumber++   
+    hireQci.disabled = false
+    btnIdle(hireQci)
+    qciNumberDisplay.childNodes[0].nodeValue = qciNumber + " Quality Control Inspectors"
 }
 
 function addAccountant1() {
@@ -170,10 +181,10 @@ function addAccountant1() {
 }
 
 function addAccountant2() {
-        accountantNumber++
-        termLoanAmountDisplay.disabled = false
-        termLoanDurationDisplay.disabled = false
-        termLoanCheck()
+    accountantNumber++
+    termLoanAmountDisplay.disabled = false
+    termLoanDurationDisplay.disabled = false
+    termLoanCheck()
         if(accountantNumber==maxAccountants) {
             hireAccountant.disabled = true
             btnBusy(hireAccountant)
@@ -182,12 +193,12 @@ function addAccountant2() {
             hireAccountant.disabled = false
             btnIdle(hireAccountant)
         }
-        hireAccountant.value = "Hire 1 Accountant (0.6$/Second + 18$)" 
-        accountantNumberDisplay.childNodes[0].nodeValue = accountantNumber + " Accountants (max:" + maxAccountants+")"
-        if(accountantNumber>1) btnIdle(reduceTaxesResearch)
-        assemblerWage -= outsourcedAccountingFee
-        qciWage -= outsourcedAccountingFee
-        outsourcedAccountingFee = 0
+    hireAccountant.value = "Hire 1 Accountant ("+accountantWage+"$/Second + "+accountantHireCost+"$)"
+    accountantNumberDisplay.childNodes[0].nodeValue = accountantNumber + " Accountants (max:" + maxAccountants+")"
+    if(accountantNumber>1) btnIdle(reduceTaxesResearch)
+    assemblerWage -= outsourcedAccountingFee
+    qciWage -= outsourcedAccountingFee
+    outsourcedAccountingFee = 0
 }
 
 function addOfficeBuilding1() {
@@ -202,7 +213,7 @@ function addOfficeBuilding1() {
 }
 
 function addOfficeBuilding2() {
-    rentOfficeBuilding.value = "Rent 1 Office Building (0.4$/Second + 10$ Setup Cost)"
+    rentOfficeBuilding.value = "Rent 1 Office Building ("+rentPerOfficeBuilding+"$/Second + "+officeBuildingSetupCost+"$ Setup Cost)"
     maxAccountants+=accountantsPerOfficeBuilding
     if(hireAccountant.value !== "Hiring Accountant..."){
         hireAccountant.disabled = false
@@ -222,8 +233,7 @@ function addOfficeBuilding2() {
 }
 
 function reduceTaxesResearch1() {
-    if(accountantNumber>1 && liquidity>=officeBuildingSetupCost){
-        reduceTaxesResearch.disabled = true
+    if(accountantNumber>1 && liquidity>=reduceTaxesResearchCost){
         btnBusy(reduceTaxesResearch)
         reduceTaxesResearch.value = "Tax Optimization Ongoing..."
         money-=reduceTaxesResearchCost
@@ -234,6 +244,23 @@ function reduceTaxesResearch1() {
 function reduceTaxesResearch2() {
     corpTaxRate = 0.2
     reduceTaxesResearch.value = "Taxes Optimized! Corporate Income Tax Rate reduced to 20%"
+    reduceTaxesResearch.disabled = true
+}
+
+function advancedTrainingResearch1() {
+    if(assemblerNumber>14 && liquidity>=advancedTrainingCostPerAssembler*assemblerNumber) {
+        btnBusy(advancedTrainingResearch)
+        advancedTrainingResearch.value = "Advanced Training Ongoing..." 
+        money-=advancedTrainingCostPerAssembler*assemblerNumber	
+        setTimeout(advancedTrainingResearch2,5000)
+    }
+}
+function advancedTrainingResearch2() {
+    assemblersPerMachine = 0.9
+    assemblerHireCost = 14
+    advancedTrainingResearch.value = "Advanced Training Complete! All future hires will recieve the advanced training automatically"
+    advancedTrainingResearch.disabled = true
+    hireAssembler.value = "Hire 1 Assembler ("+assemblerWage+"$/Second + "+assemblerHireCost+"$)"
 }
 
 function termLoanCheck() {
@@ -259,23 +286,23 @@ function termLoanCheck() {
 }
 
 function submitTermLoan() {
-if (document.forms["termLoan"]["termLoanAmount"].checkValidity() && document.forms["termLoan"]["termLoanDuration"].checkValidity()){
-    termLoan1MonthlyPayment = tempTermLoanMonthlyPayment
-    termLoan1MonthsRemaining = tempTermLoanDuration * 12
-    money -= -1*(tempTermLoanAmount)
-    termLoan1MonthlyInterest = ((tempTermLoanMonthlyPayment*tempTermLoanDuration*12)-tempTermLoanAmount)/(tempTermLoanDuration*12*(baseTaxCounter/30))
-    acceptTermLoan.disabled = true
-    btnBusy(acceptTermLoan)
-    termLoan1NameDisplay.hidden = false
-    termLoan1PaymentsDisplay.hidden = false
-    termLoan1TotalDisplay.hidden = false
-    termLoanAPRDisplay.hidden = true
-    tempTermLoanAmount, tempTermLoanDuration, tempTermLoanInterestRate, tempTermLoanMonthlyPayment = 0
-    document.forms["termLoan"]["termLoanAmount"].value = ""
-    document.forms["termLoan"]["termLoanDuration"].value = ""
-    termLoanMonthlyPaymentDisplay.childNodes[0].nodeValue = "Pay off your current Term Loan first!" 
-    termLoan1PaymentsDisplay.childNodes[0].nodeValue = termLoan1MonthsRemaining+" payments of "+termLoan1MonthlyPayment.toFixed(2)+" $ remaining"
-    termLoan1TotalDisplay.childNodes[0].nodeValue = "Total Loan remaining: "+(termLoan1MonthsRemaining*termLoan1MonthlyPayment).toFixed(0)+" $"
+    if (document.forms["termLoan"]["termLoanAmount"].checkValidity() && document.forms["termLoan"]["termLoanDuration"].checkValidity()){
+        termLoan1MonthlyPayment = tempTermLoanMonthlyPayment
+        money -= -1*(tempTermLoanAmount)
+        termLoan1MonthsRemaining = tempTermLoanDuration * 12
+        termLoan1MonthlyInterest = ((tempTermLoanMonthlyPayment*tempTermLoanDuration*12)-tempTermLoanAmount)/(tempTermLoanDuration*12*(baseTaxCounter/30))
+        acceptTermLoan.disabled = true
+        btnBusy(acceptTermLoan)
+        termLoan1NameDisplay.hidden = false
+        termLoan1PaymentsDisplay.hidden = false
+        termLoan1TotalDisplay.hidden = false
+        termLoanAPRDisplay.hidden = true
+        tempTermLoanAmount, tempTermLoanDuration, tempTermLoanInterestRate, tempTermLoanMonthlyPayment = 0
+        document.forms["termLoan"]["termLoanAmount"].value = ""
+        document.forms["termLoan"]["termLoanDuration"].value = ""
+        termLoanMonthlyPaymentDisplay.childNodes[0].nodeValue = "Pay off your current Term Loan first!" 
+        termLoan1PaymentsDisplay.childNodes[0].nodeValue = termLoan1MonthsRemaining+" payments of "+termLoan1MonthlyPayment.toFixed(2)+" $ remaining"
+        termLoan1TotalDisplay.childNodes[0].nodeValue = "Total Loan remaining: "+(termLoan1MonthsRemaining*termLoan1MonthlyPayment).toFixed(0)+" $"
 }
 }
 
@@ -324,9 +351,9 @@ function ticker() {
         productPriceDisplay.childNodes[0].nodeValue = "Product Price: "+productPrice.toFixed(2)+" $/Unit"
         incomePerMachine = productPrice-inputMatPrice
     }
-    if((assemblerNumber*assemblersPerMachine)>machineNumber) machineUtilization = 1
+    if((assemblerNumber/assemblersPerMachine)>machineNumber) machineUtilization = 1
     
-    else if (assemblerNumber!=0) machineUtilization = assemblerNumber/machineNumber
+    else if (assemblerNumber!=0) machineUtilization = (assemblerNumber/assemblersPerMachine)/machineNumber
     
     machineUtilizationDisplay.childNodes[0].nodeValue = "Machine Utilization: "+(machineUtilization*100).toFixed(0)+"%"
     productsPerSecond = (machineSpeed/(machineCycleTime/1000))*machineNumber*machineUtilization
@@ -384,6 +411,7 @@ function ticker() {
     costOfRevenuesWriteOff = 0
     oneTimeWriteOff = 0
     taxCounter--
+
     if(taxCounter==0||taxCounter==(baseTaxCounter/3).toFixed(0)||taxCounter==(baseTaxCounter*0.6666667).toFixed(0)) {
         if(termLoan1MonthsRemaining>0) {
             money-= termLoan1MonthlyPayment
@@ -447,5 +475,4 @@ function ticker() {
         location.reload()
     }
 }
-
 setInterval(ticker, 100)
