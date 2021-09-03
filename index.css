@@ -78,6 +78,10 @@ body {
 .btn-busy {
     background-color: #C0C0C0;
 }
+.btn-rnd-done {
+    background-color: #add8e6;
+    color: black;
+}
 
 
 /* Tooltips */

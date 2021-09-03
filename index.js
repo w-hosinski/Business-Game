@@ -245,6 +245,7 @@ function reduceTaxesResearch2() {
     corpTaxRate = 0.2
     reduceTaxesResearch.value = "Taxes Optimized! Corporate Income Tax Rate reduced to 20%"
     reduceTaxesResearch.disabled = true
+    reduceTaxesResearch.classList.add("btn-rnd-done")
 }
 
 function advancedTrainingResearch1() {
@@ -261,6 +262,7 @@ function advancedTrainingResearch2() {
     advancedTrainingResearch.value = "Advanced Training Complete! All future hires will recieve the advanced training automatically"
     advancedTrainingResearch.disabled = true
     hireAssembler.value = "Hire 1 Assembler ("+assemblerWage+"$/Second + "+assemblerHireCost+"$)"
+    advancedTrainingResearch.classList.add("btn-rnd-done")
 }
 
 function termLoanCheck() {
@@ -307,7 +309,7 @@ function submitTermLoan() {
 }
 
 function btnBusy(element) {
-    element.classList.add("btn-busy") 
+    element.classList.add("btn-busy")
 }
 
 function btnIdle(element) {
